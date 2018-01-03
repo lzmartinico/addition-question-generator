@@ -17,6 +17,18 @@ class AdditionServlet extends ScalatraServlet with JacksonJsonSupport {
   get("/") {
     Error("Please send GET requests to /question")
   }
+  get("/question") {
+      val minParam = params.get("min")
+      val maxParam = params.get("max")
+      try {
+        val min = minParam.get.toInt
+        val max = maxParam.get.toInt
+        Error("Query parameters are " + min + " and " + max)
+      } catch {
+        case e : Exception =>
+          Error("Please include min and max url parameters between 0 and 1,000,000")
+      }
+  }
   // Sets up automatic case class to JSON output serialization, required by the JValueResult trait
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 }
